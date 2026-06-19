@@ -86,8 +86,12 @@ footer {visibility: hidden;}
 """, unsafe_allow_html=True)
 
 
-model = joblib.load("../Model/loan_approval_xgboost.pkl")
-scaler = joblib.load("../Model/scaler.pkl")
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+model = joblib.load(BASE_DIR / "Model" / "loan_approval_xgboost.pkl")
+scaler = joblib.load(BASE_DIR / "Model" / "scaler.pkl")
 
 # SIDEBAR
 with st.sidebar:
