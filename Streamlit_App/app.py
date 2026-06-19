@@ -86,8 +86,8 @@ footer {visibility: hidden;}
 """, unsafe_allow_html=True)
 
 
-model = joblib.load("../Model/loan_approval_xgboost (1).pkl")
-scaler = joblib.load("../Model/scaler (1).pkl")
+model = joblib.load("../Model/loan_approval_xgboost.pkl")
+scaler = joblib.load("../Model/scaler.pkl")
 
 # SIDEBAR
 with st.sidebar:
