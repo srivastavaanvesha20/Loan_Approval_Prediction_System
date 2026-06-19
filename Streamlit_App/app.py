@@ -1,17 +1,8 @@
-# ==========================================================
-# LOAN APPROVAL PREDICTION SYSTEM
-# Developer: Anvesha Srivastava
-# Model: XGBoost Classifier
-# ==========================================================
 
 import streamlit as st
 import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
-
-# ==========================================================
-# PAGE CONFIGURATION
-# ==========================================================
 
 st.set_page_config(
     page_title="Loan Approval Prediction System",
@@ -19,13 +10,10 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-# ==========================================================
-# CUSTOM CSS
-# ==========================================================
 
+# CUSTOM CSS
 st.markdown("""
 <style>
-
 /* Background */
 .stApp {
     background: linear-gradient(
@@ -34,18 +22,15 @@ st.markdown("""
         #1e293b,
         #334155
     );
-
     section[data-testid="stSidebar"] {
     background-color: #111827;
     border-right: 1px solid #374151;
 }
-
 section[data-testid="stSidebar"] * {
     color: white !important;
 }
 }
 
-/* Hide Streamlit Branding */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 /*header {visibility: hidden;}*/
@@ -58,7 +43,6 @@ footer {visibility: hidden;}
     font-weight: 700;
     margin-bottom: 10px;
 }
-
 /* Subtitle */
 .subtitle {
     text-align: center;
@@ -66,7 +50,6 @@ footer {visibility: hidden;}
     font-size: 20px;
     margin-bottom: 25px;
 }
-
 /* KPI Cards */
 .card {
     background: rgba(255,255,255,0.08);
@@ -76,7 +59,6 @@ footer {visibility: hidden;}
     text-align: center;
     border: 1px solid rgba(255,255,255,0.10);
 }
-
 /* Result Cards */
 .approved {
     background: rgba(16,185,129,0.20);
@@ -103,17 +85,11 @@ footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
-# ==========================================================
-# LOAD MODEL & SCALER
-# ==========================================================
 
-model = joblib.load("../Model/loan_approval_xgboost.pkl")
-scaler = joblib.load("../Model/scaler.pkl")
+model = joblib.load("../Model/loan_approval_xgboost (1).pkl")
+scaler = joblib.load("../Model/scaler (1).pkl")
 
-# ==========================================================
 # SIDEBAR
-# ==========================================================
-
 with st.sidebar:
     st.title("🏦 Project Dashboard")
 
@@ -127,9 +103,7 @@ with st.sidebar:
     st.metric("ROC-AUC", "99.86%")
 
     st.success("🟢 Production Ready")
-# ==========================================================
-# HEADER
-# ==========================================================
+
 
 st.markdown("""
 <div class="main-title">
@@ -145,9 +119,8 @@ st.info(
     "💡 Enter applicant details and let the AI model evaluate loan eligibility instantly."
 )
 
-# ==========================================================
+
 # KPI CARDS
-# ==========================================================
 
 col1, col2, col3 = st.columns(3)
 
@@ -177,60 +150,44 @@ with col3:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ==========================================================
 # TABS
-# ==========================================================
-
 tab1, tab2, tab3 = st.tabs(
     ["📋 Prediction", "📊 Analytics", "ℹ️ About Project"]
 )
 
-# ==========================================================
 # TAB 1 - PREDICTION
-# ==========================================================
 
 with tab1:
-
     st.subheader("Applicant Information")
-
     col1, col2 = st.columns(2)
-
     with col1:
-
         no_of_dependents = st.number_input(
             "Number of Dependents",
             min_value=0,
             max_value=10,
             value=0
         )
-
         education = st.selectbox(
             "Education",
             ["Not Graduate", "Graduate"]
         )
-
         self_employed = st.selectbox(
             "Self Employed",
             ["No", "Yes"]
         )
-
         income_annum = st.number_input(
             "Annual Income (₹)",
             min_value=0
         )
-
         loan_amount = st.number_input(
             "Loan Amount (₹)",
             min_value=0
         )
-
         loan_term = st.number_input(
             "Loan Term (Years)",
             min_value=1
         )
-
     with col2:
-
         cibil_score = st.number_input(
             "CIBIL Score",
             min_value=300,
@@ -242,22 +199,18 @@ with tab1:
             "Residential Assets Value (₹)",
             min_value=0
         )
-
         commercial_assets_value = st.number_input(
             "Commercial Assets Value (₹)",
             min_value=0
         )
-
         luxury_assets_value = st.number_input(
             "Luxury Assets Value (₹)",
             min_value=0
         )
-
         bank_asset_value = st.number_input(
             "Bank Asset Value (₹)",
             min_value=0
         )
-
     if st.button("🔍 Predict Loan Status"):
 
         education_encoded = 1 if education == "Graduate" else 0
@@ -269,11 +222,8 @@ with tab1:
             + luxury_assets_value
             + bank_asset_value
         )
-
         st.subheader("📄 Applicant Summary")
-
         summary_col1, summary_col2 = st.columns(2)
-
         with summary_col1:
             st.write(f"**Annual Income:** ₹{income_annum:,}")
             st.write(f"**Loan Amount:** ₹{loan_amount:,}")
@@ -312,7 +262,7 @@ with tab1:
             f"### {probability*100:.2f}% Probability of Approval"
         )
 
-        if prediction == 1:
+        if prediction == 0:
 
             st.markdown("""
             <div class="approved">
@@ -329,10 +279,9 @@ with tab1:
             ❌ LOAN REJECTED
             </div>
             """, unsafe_allow_html=True)
+        
 
-# ==========================================================
 # TAB 2 - ANALYTICS
-# ==========================================================
 
 with tab2:
 
@@ -376,9 +325,7 @@ with tab2:
 
     st.pyplot(fig)
 
-# ==========================================================
 # TAB 3 - ABOUT PROJECT
-# ==========================================================
 
 with tab3:
 
